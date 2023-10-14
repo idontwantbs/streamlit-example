@@ -5,6 +5,7 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import chroma
 from langchain.chains import RetrievalQA
+import PyPDF2
 
 st.set_page_config(page_title="Ask the assistant")
 st.title("I want an assistant")
@@ -14,7 +15,7 @@ def generate_response(uploaded_file, openai_api_key, query_text):
         response from the uploaded file
     """
     if uploaded_file is not None:
-        documents = [uploaded_file.read().decode("utf-8")]
+        documents = [PyPDF2.PdfReader(uploaded_file).pages[0].extract_text()]
 
     # Split documents into text chunks
     text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
@@ -33,7 +34,7 @@ def generate_response(uploaded_file, openai_api_key, query_text):
 
 
 # File upload
-uploaded_file = st.file_uploader('Upload an article', type=['txt', "pdf"])
+uploaded_file = st.file_uploader('Upload an article', type=['pdf'])
 # Query text
 query_text = st.text_input('Enter your question:', placeholder = 'Please provide a short summary.', disabled=not uploaded_file)
 
