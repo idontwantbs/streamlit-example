@@ -2,7 +2,7 @@ altair
 pandas
 streamlit
 openai
-langchain
+langchain==0.0.314
 chromadb
 tiktoken
 pypdf2
