@@ -1,6 +1,6 @@
 from collections import namedtuple
 import streamlit as st
-from langchain.llms import openai
+from langchain.llms.openai import OpenAI
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores.chroma import Chroma
@@ -28,7 +28,7 @@ def generate_response(uploaded_file, openai_api_key, query_text):
 
     retriever = db.as_retriever()
 
-    qa = RetrievalQA.from_chain_type(llm=openai(openai_api_key=openai_api_key), chain_type='stuff', retriever=retriever)
+    qa = RetrievalQA.from_chain_type(llm=OpenAI(openai_api_key=openai_api_key), chain_type='stuff', retriever=retriever)
 
     return qa.run(query_text)
 
